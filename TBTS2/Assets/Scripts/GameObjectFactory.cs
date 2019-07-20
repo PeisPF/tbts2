@@ -3,18 +3,38 @@ using System.Collections;
 
 public class GameObjectFactory : MonoBehaviour
 {
-    public GameObject Create(Transform parent, string resource, float x, float z)
+    private GameObject myGameObject;
+
+    public GameObjectFactory Resource(string resource)
     {
-        return Create(parent, resource, x, 0, z); 
+        
+        UnityEngine.Object myObject = Resources.Load(resource);
+        this.myGameObject = (UnityEngine.GameObject)Instantiate(myObject);
+        return this;
     }
 
-    public GameObject Create(Transform parent, string resource, float x, float y, float z)
+    public GameObjectFactory Position(float x, float z)
     {
-        UnityEngine.Object tileObject = Resources.Load(resource);
-        GameObject myGameObject = (UnityEngine.GameObject)Instantiate(tileObject);
-        myGameObject.transform.SetParent(parent);
-        Vector3 position = new Vector3(x, 0, z);
+        return Position(x, 0, z);
+    }
+
+    public GameObjectFactory Position(float x, float y, float z)
+    {
+        Vector3 position = new Vector3(x, y, z);
         myGameObject.transform.position = position;
+        return this;
+    }
+
+    public GameObjectFactory Parent(Transform parent)
+    {
+        this.myGameObject.transform.SetParent(parent);
+        return this;
+    }
+
+    public GameObject Create()
+    {
         return myGameObject;
     }
+
+
 }

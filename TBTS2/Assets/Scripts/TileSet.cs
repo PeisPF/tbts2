@@ -31,11 +31,10 @@ public class TileSet
         int endZ = startZ + sizeZ;
         for (int x=startX; x < endX; x++){
             for (int z=startZ; z < endZ; z++){
-                gameObjectFactory.Create(tileSet.transform, "Tiles/Tile", x, z);
+                gameObjectFactory.Resource("Tiles/Tile").Parent(tileSet.transform).Position(x,z).Create();
             }
         }
-        return this;
-       
+        return this;      
     }
 
 
