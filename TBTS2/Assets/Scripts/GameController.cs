@@ -7,7 +7,9 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.AddComponent<TileCreator>();
+        GameObjectFactory gameObjectFactory = gameObject.AddComponent<GameObjectFactory>();
+        new TileSet("TileSet", 9, 9, Vector3.zero, gameObjectFactory).Create();
+        new TileSet("TileSet2", 7, 7, new Vector3(12,0,0), gameObjectFactory).Create();
     }
 
     // Update is called once per frame
