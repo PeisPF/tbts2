@@ -1,0 +1,53 @@
+suddividere le classi di business logic dalle implementazioni specifiche di unity
+
+PlayerAction{ //contenuto nel rulebook
+
+	private MovementInterface movementInterface; //non nel costruttore, ma in un setter, in modo che il rulebook possa ragionare in termini assolutamente slegati da Unity, mentre ci sarà una classe
+												//che "macina" Action e le cala nel contesto di Unity, facendo l'injection dei servizi
+	
+	Move()
+	{
+		movementInterface.MoveForward(2);
+	}
+}
+
+MovementTestService implements MovementInterface{
+
+	void MoveForward(int amount){
+		//robaccaso che permetta di testare la business logic
+	}
+}
+
+MovementUnityServiceImpl implements MovementInterface{
+
+	void MoveForward(int amount){
+		UnityEngine.Antani();
+	}
+}
+
+
+encounter: insieme dei round svolti da inizio combattimento alla sconfitta di una delle squadre
+round: insieme delle action svolte da entrambe le squadre
+turn: insieme delle action svolte da una squadra 
+sequence: insieme delle action svolte da una unità
+action: singola "mossa" svolta da una unità
+
+
+
+
+team: squadra
+unit: unità (sia nemici che controllati dal giocatore)
+PC: unit controllata dal giocatore
+NPC: unit controllata dall'AI
+
+
+RuleBook (ActionManager): gestisce encounter, round, turn, sequence ed action
+CommandExecutor: gestisce l'implementazione delle action
+
+
+Il RuleBook prende in input eventi (da definire). Potrebbe anche crearli da solo.
+Il RuleBook comunica col CommandExecutor tramite command (che possono essere action o trigger), che avranno un significato diverso ai due livelli
+Trigger: qualsiasi effetto che modifichi lo stato del gioco e non sia una action
+
+Matteo: trova letteratura per il RuleBook. Pensa all'infrastruttura dei test (contatta Ciccio)
+Iacopo: definire la struttura delle Action
