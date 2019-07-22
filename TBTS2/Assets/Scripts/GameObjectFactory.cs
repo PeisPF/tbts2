@@ -5,6 +5,12 @@ public class GameObjectFactory : MonoBehaviour
 {
     private GameObject myGameObject;
 
+    public GameObjectFactory Duplicate(Object myObject)
+    {
+        this.myGameObject = (UnityEngine.GameObject)Instantiate(myObject);
+        return this;
+    }
+
     public GameObjectFactory Resource(string resource)
     {
         
@@ -16,6 +22,11 @@ public class GameObjectFactory : MonoBehaviour
     public GameObjectFactory Position(float x, float z)
     {
         return Position(x, 0, z);
+    }
+
+    public GameObjectFactory Position(Vector3 position)
+    {
+        return Position(position.x, position.y, position.z);
     }
 
     public GameObjectFactory Position(float x, float y, float z)
