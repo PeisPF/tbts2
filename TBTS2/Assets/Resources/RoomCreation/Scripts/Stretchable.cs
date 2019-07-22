@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stretchable : MonoBehaviour
+public abstract class Stretchable : MonoBehaviour
 {
-    public Vector3 stretchDirection;
-    public StretchablePartScript stretchablePart;
-    public EndOfStretchablePartScript endOfStretchablePartScript;
-
-    private void Start()
+    public abstract void Stretch(int stretchX, int stretchZ);
+    protected GameObjectFactory gameObjectFactory;
+    void Start()
     {
-        endOfStretchablePartScript.SetStretchDirection(this.stretchDirection);
-        stretchablePart.SetStretchDirection(this.stretchDirection);
+        gameObjectFactory = GameObject.FindObjectOfType<GameObjectFactory>();
     }
+
 }
