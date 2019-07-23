@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
         TileSet tileSet = new TileSet("TileSet", 9, 9, Vector3.zero, gameObjectFactory).Create();
         TileSet tileSet2 = new TileSet("TileSet2", 7, 7, new Vector3(12, 0, 0), gameObjectFactory).Create();
         this.currentPlayer = gameObjectFactory.Resource("Player/Player").Position(0, 1.05f, 0).Create();
+        
         PrepareBFS(tileSet.GetTiles());
         PrepareBFS(tileSet2.GetTiles());
 
@@ -29,8 +30,10 @@ public class GameController : MonoBehaviour
 
     void PrepareBFS(List<GameObject> tiles)
     {
-        foreach(GameObject tile in tiles)
+        Debug.Log("BFS on "+tiles.Count+" elements");
+        foreach (GameObject tile in tiles)
         {
+            Debug.Log("Calculate adjacency list");
             tile.GetComponent<TileBFSScript>().CalculateAdjacency();
         }
     }

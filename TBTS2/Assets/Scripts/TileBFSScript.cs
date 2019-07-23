@@ -24,6 +24,7 @@ public class TileBFSScript : MonoBehaviour
             bool hit = Physics.Raycast(origin, direction, out raycastHit, maxDistance, layerMask);
             if (hit)
             {
+                Debug.Log("hit");
                 TileBFSScript tileBFSScript = raycastHit.collider.GetComponent<TileBFSScript>();
                 adjacency.Add(tileBFSScript);
             }

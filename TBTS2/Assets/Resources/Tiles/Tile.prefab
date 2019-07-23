@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1358310614173274104}
   - component: {fileID: 1358310614173274105}
   - component: {fileID: 8773363954071962959}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tile
   m_TagString: Tile
   m_Icon: {fileID: 0}
@@ -109,5 +109,5 @@ MonoBehaviour:
   stepToReach: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   adjacency: []
