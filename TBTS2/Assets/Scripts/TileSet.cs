@@ -34,8 +34,10 @@ public class TileSet
                 gameObjectFactory.Resource("Tiles/Tile").Parent(tileSet.transform).Position(x,z).Create();
             }
         }
-        return this;      
+        return this;
+        
     }
+
 
 
 
