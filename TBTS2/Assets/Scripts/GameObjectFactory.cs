@@ -19,6 +19,12 @@ public class GameObjectFactory : MonoBehaviour
         return this;
     }
 
+    public GameObjectFactory Name(string name)
+    {
+        this.myGameObject.name = name;
+        return this;
+    }
+
     public GameObjectFactory Position(float x, float z)
     {
         return Position(x, 0, z);

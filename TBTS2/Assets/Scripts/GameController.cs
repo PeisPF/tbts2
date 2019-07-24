@@ -30,10 +30,8 @@ public class GameController : MonoBehaviour
 
     void PrepareBFS(List<GameObject> tiles)
     {
-        Debug.Log("BFS on "+tiles.Count+" elements");
         foreach (GameObject tile in tiles)
         {
-            Debug.Log("Calculate adjacency list");
             tile.GetComponent<TileBFSScript>().CalculateAdjacency();
         }
     }
