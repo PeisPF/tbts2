@@ -3,25 +3,21 @@ using System.Collections;
 
 public class GameObjectFactory : MonoBehaviour
 {
-    private GameObject myGameObject;
-
-    public GameObjectFactory Duplicate(Object myObject)
-    {
-        this.myGameObject = (UnityEngine.GameObject)Instantiate(myObject);
-        return this;
-    }
+    private Object myObject;
+    private string name;
+    private Vector3 position = Vector3.zero;
+    private Quaternion rotation = Quaternion.identity;
+    private Transform parent;
 
     public GameObjectFactory Resource(string resource)
     {
-        
-        UnityEngine.Object myObject = Resources.Load(resource);
-        this.myGameObject = (UnityEngine.GameObject)Instantiate(myObject);
+        this.myObject = Resources.Load(resource);
         return this;
     }
 
     public GameObjectFactory Name(string name)
     {
-        this.myGameObject.name = name;
+        this.name = name;
         return this;
     }
 
@@ -37,20 +33,27 @@ public class GameObjectFactory : MonoBehaviour
 
     public GameObjectFactory Position(float x, float y, float z)
     {
-        Vector3 position = new Vector3(x, y, z);
-        myGameObject.transform.position = position;
+        this.position = new Vector3(x, y, z);
+        return this;
+    }
+
+    public GameObjectFactory Rotation(Quaternion rotation)
+    {
+        this.rotation = rotation;
         return this;
     }
 
     public GameObjectFactory Parent(Transform parent)
     {
-        this.myGameObject.transform.SetParent(parent);
+        this.parent = parent;
         return this;
     }
 
     public GameObject Create()
     {
-        return myGameObject;
+        GameObject item = (UnityEngine.GameObject)Instantiate(myObject, position, rotation, parent);
+        item.name = name;
+        return item;
     }
 
 

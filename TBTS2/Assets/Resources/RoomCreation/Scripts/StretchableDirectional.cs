@@ -27,8 +27,8 @@ public class StretchableDirectional : Stretchable
         }
         for (int i = 0; i < stretchAmount; i++)
         {
-            GameObject first = gameObjectFactory.Duplicate(stretchablePart).Parent(this.transform.parent.transform).Position(stretchDirection * i+((this.transform.parent.position- this.transform.position)*moveAmount)).Create();
-            GameObject second = gameObjectFactory.Duplicate(stretchablePart).Parent(this.transform.parent.transform).Position(stretchDirection * -i+ (this.transform.parent.position - this.transform.position * moveAmount)).Create();
+            //TODO: da fixare GameObject first = gameObjectFactory.Duplicate(stretchablePart).Parent(this.transform.parent.transform).Position(stretchDirection * i+((this.transform.parent.position- this.transform.position)*moveAmount)).Create();
+            //TODO: da fixare GameObject second = gameObjectFactory.Duplicate(stretchablePart).Parent(this.transform.parent.transform).Position(stretchDirection * -i+ (this.transform.parent.position - this.transform.position * moveAmount)).Create();
             //first.transform.position *= (moveAmount);
             //second.transform.position *=  (moveAmount);
         }

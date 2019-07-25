@@ -45,8 +45,8 @@ public class TileSet
         return tiles;
     }
 
-    private GameObject CreateTile(GameObject tileSet, Int32 x, Int32 z)
+    private GameObject CreateTile(GameObject parent, int x, int z)
     {
-        return gameObjectFactory.Resource("Tiles/Tile").Parent(tileSet.transform).Position(x, z).Name("Tile ("+x+","+z+")").Create();
+        return gameObjectFactory.Resource("Tiles/Tile").Parent(parent.transform).Position(x, z).Name("Tile ("+x+","+z+")").Create();
     }
 }

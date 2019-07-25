@@ -10,7 +10,8 @@ public class StretchableOmni : Stretchable
         {
             for (int z=-stretchX+1;z<stretchX; z++)
             {
-                gameObjectFactory.Duplicate(this.gameObject).Parent(this.transform.parent).Position(this.transform.parent.position + new Vector3(x, 0, z)).Create();
+                //TODO da fixare
+                //gameObjectFactory.Duplicate(this.gameObject).Parent(this.transform.parent).Position(this.transform.parent.position + new Vector3(x, 0, z)).Create();
             }
         }
         Destroy(this.gameObject);
