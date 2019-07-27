@@ -34,24 +34,27 @@ public class TileBFSScript : MonoBehaviour
     public void HighlightTiles(int remainingMovements)
     {
 
-        BFSStatus bFSStatus = HighlightTiles(new BFSStatus(remainingMovements));
+        BFSStatus bFSStatus = HighlightTiles(new BFSStatus(), remainingMovements);
         foreach(TileBFSScript visited in bFSStatus.GetVisited())
         {
             visited.GetComponent<Renderer>().material.color = Color.red;
         }
     }
 
-    private BFSStatus HighlightTiles(BFSStatus bFSStatus){
-        bFSStatus.Visit(this.gameObject);
-        if (bFSStatus.HasRemainingMovements())
+    private BFSStatus HighlightTiles(BFSStatus bFSStatus, int remainingMovements)
+    {
+        if (remainingMovements>0)
         {
-            bFSStatus.Moved();
-            foreach (TileBFSScript tileBFSScript in adjacency)
+            bFSStatus.Visit(this);
+            remainingMovements--;
+            foreach (TileBFSScript neighbour in this.adjacency)
             {
-                if (!bFSStatus.Contains(tileBFSScript))
+                bool alreadyVisited = bFSStatus.Contains(neighbour);
+                if (!alreadyVisited)
                 {
-                    tileBFSScript.HighlightTiles(bFSStatus);
+                    neighbour.HighlightTiles(bFSStatus, remainingMovements);
                 }
+                //Debug.Log(string.Format("Current: {0}, Neighbour: {1}, Added: {2}, Visited: {3}", this, neighbour, !alreadyVisited, string.Join("; ", bFSStatus.GetVisited())));
             }
         }
         return bFSStatus;
@@ -59,23 +62,7 @@ public class TileBFSScript : MonoBehaviour
 
     class BFSStatus
     {   
-        private List<TileBFSScript> visited;
-        private int remainingMovements;
-
-        public BFSStatus(int remainingMovements)
-        {
-            this.remainingMovements = remainingMovements;
-        }
-
-        public bool HasRemainingMovements()
-        {
-            return remainingMovements > 0;
-        }
-
-        public void Moved()
-        {
-            remainingMovements--;
-        }
+        private List<TileBFSScript> visited = new List<TileBFSScript>();
 
         public bool Contains(TileBFSScript gameObject)
         {

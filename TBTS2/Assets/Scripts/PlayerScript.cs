@@ -16,7 +16,7 @@ public class PlayerScript : MonoBehaviour
         TileBFSScript tileBFSScript = FindActiveTile();
         if(tileBFSScript != null)
         {
-            tileBFSScript.HightlightTiles(movementPerTurn);
+            tileBFSScript.HighlightTiles(movementPerTurn);
         }
         else
         {

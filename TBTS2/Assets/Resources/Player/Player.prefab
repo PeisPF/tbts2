@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8484353621354966996}
   - component: {fileID: 4791450516754036730}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,3 +105,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2f906459470a4c7c8988e927b25e511, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementPerTurn: 3
