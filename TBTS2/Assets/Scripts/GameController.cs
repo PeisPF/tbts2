@@ -8,14 +8,22 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        GameObjectFactory gameObjectFactory = gameObject.AddComponent<GameObjectFactory>();
-        TileSet tileSet = new TileSet("TileSet", 9, 9, Vector3.zero, gameObjectFactory).Create();
-        TileSet tileSet2 = new TileSet("TileSet2", 7, 7, new Vector3(12, 0, 0), gameObjectFactory).Create();
-        this.currentPlayer = gameObjectFactory.Resource("Player/Player").Position(0, 1.05f, 0).Create();
+        GameObjectFactory gameObjectFactory = NewGameObjectFactory();
+        NewMapManager();
 
-        /*PrepareBFS(tileSet.GetTiles());
-        PrepareBFS(tileSet2.GetTiles());*/
-        PrepareBFS();
+        this.currentPlayer = gameObjectFactory.Id("Player").Resource("Player/Player").Position(0, 1.05f, 0).Create();
+
+
+    }
+
+    private MapManager NewMapManager()
+    {
+        return gameObject.AddComponent<MapManager>();
+    }
+
+    private GameObjectFactory NewGameObjectFactory()
+    {
+        return gameObject.AddComponent<GameObjectFactory>();
     }
 
     public GameObject GetCurrentPlayer()
@@ -28,20 +36,4 @@ public class GameController : MonoBehaviour
         
     }
 
-    void PrepareBFS()
-    {
-        ;
-        foreach (TileBFSScript tile in FindObjectsOfType<TileBFSScript>())
-        {
-            tile.GetComponent<TileBFSScript>().CalculateAdjacency();
-        }
-    }
-
-    void PrepareBFS(List<GameObject> tiles)
-    {
-        foreach (GameObject tile in tiles)
-        {
-            tile.GetComponent<TileBFSScript>().CalculateAdjacency();
-        }
-    }
 }

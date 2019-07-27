@@ -47,6 +47,7 @@ public class TileSet
 
     private GameObject CreateTile(GameObject parent, int x, int z)
     {
-        return gameObjectFactory.Resource("Tiles/Tile").Parent(parent.transform).Position(x, z).Name("Tile ("+x+","+z+")").Create();
+        string id = string.Format("Tile ({0},{1})", x, z );
+        return gameObjectFactory.Resource("Tiles/Tile").Parent(parent.transform).Position(x, z).Id(id).Create();
     }
 }

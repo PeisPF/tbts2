@@ -4,7 +4,7 @@ using System.Collections;
 public class GameObjectFactory : MonoBehaviour
 {
     private Object myObject;
-    private string name;
+    private string id;
     private Vector3 position = Vector3.zero;
     private Quaternion rotation = Quaternion.identity;
     private Transform parent;
@@ -15,9 +15,9 @@ public class GameObjectFactory : MonoBehaviour
         return this;
     }
 
-    public GameObjectFactory Name(string name)
+    public GameObjectFactory Id(string id)
     {
-        this.name = name;
+        this.id = id;
         return this;
     }
 
@@ -52,7 +52,7 @@ public class GameObjectFactory : MonoBehaviour
     public GameObject Create()
     {
         GameObject item = (UnityEngine.GameObject)Instantiate(myObject, position, rotation, parent);
-        item.name = name;
+        item.name = id;
         return item;
     }
 
