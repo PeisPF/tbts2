@@ -19,7 +19,7 @@ public class MapManager : MonoBehaviour
     {
         foreach (TileBFSScript tile in FindObjectsOfType<TileBFSScript>())
         {
-            tile.GetComponent<TileBFSScript>().CalculateAdjacency();
+            tile.GetComponent<TileBFSScript>().CalculateNeighbours();
         }
     }
 }

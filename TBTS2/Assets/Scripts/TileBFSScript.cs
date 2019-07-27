@@ -4,14 +4,9 @@ using UnityEngine;
 
 public class TileBFSScript : MonoBehaviour
 {
-    public bool visited;
-    //startin Tile
-    public bool active;
-    public int stepToReach;
+    public List<TileBFSScript> neighbours = new List<TileBFSScript>();
 
-    public List<TileBFSScript> adjacency = new List<TileBFSScript>();
-
-    public void CalculateAdjacency()
+    public void CalculateNeighbours()
     {
         Vector3[] directions = new Vector3[] { Vector3.forward, Vector3.back, Vector3.left, Vector3.right };
         Vector3 origin = this.transform.position;
@@ -26,7 +21,7 @@ public class TileBFSScript : MonoBehaviour
                 //TODO remove Debug.DrawRay
                 Debug.DrawRay(ray.origin, ray.direction * raycastHit.distance, Color.green, 60f, false);
                 TileBFSScript tileBFSScript = raycastHit.collider.GetComponent<TileBFSScript>();
-                adjacency.Add(tileBFSScript);
+                neighbours.Add(tileBFSScript);
             }
         }
     }
@@ -34,27 +29,26 @@ public class TileBFSScript : MonoBehaviour
     public void HighlightTiles(int remainingMovements)
     {
 
-        BFSStatus bFSStatus = HighlightTiles(new BFSStatus(), remainingMovements);
+        BFSStatus bFSStatus = VisitAll(new BFSStatus(), remainingMovements);
         foreach(TileBFSScript visited in bFSStatus.GetVisited())
         {
             visited.GetComponent<Renderer>().material.color = Color.red;
         }
     }
 
-    private BFSStatus HighlightTiles(BFSStatus bFSStatus, int remainingMovements)
+    private BFSStatus VisitAll(BFSStatus bFSStatus, int distance)
     {
-        if (remainingMovements>0)
+        if (distance>0)
         {
             bFSStatus.Visit(this);
-            remainingMovements--;
-            foreach (TileBFSScript neighbour in this.adjacency)
+            distance--;
+            foreach (TileBFSScript neighbour in this.neighbours)
             {
                 bool alreadyVisited = bFSStatus.Contains(neighbour);
                 if (!alreadyVisited)
                 {
-                    neighbour.HighlightTiles(bFSStatus, remainingMovements);
+                    neighbour.VisitAll(bFSStatus, distance);
                 }
-                //Debug.Log(string.Format("Current: {0}, Neighbour: {1}, Added: {2}, Visited: {3}", this, neighbour, !alreadyVisited, string.Join("; ", bFSStatus.GetVisited())));
             }
         }
         return bFSStatus;
