@@ -23,9 +23,7 @@ public class TileBFSScript : MonoBehaviour
             bool hit = Physics.Raycast(ray, out raycastHit, maxDistance);
             if (hit)
             {
-                Debug.Log("my position is: " + this.transform.position);
-                Debug.Log("target position is: " + raycastHit.collider.transform.position);
-                Debug.Log("hit collider: " + raycastHit.collider.gameObject.name + " at a distance of " + raycastHit.distance);
+                //TODO remove Debug.DrawRay
                 Debug.DrawRay(ray.origin, ray.direction * raycastHit.distance, Color.green, 60f, false);
                 TileBFSScript tileBFSScript = raycastHit.collider.GetComponent<TileBFSScript>();
                 adjacency.Add(tileBFSScript);
