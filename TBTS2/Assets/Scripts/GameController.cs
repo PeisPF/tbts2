@@ -31,7 +31,15 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        
+        RaycastHit hit;
+        Ray ray = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Transform objectHit = hit.transform;
+
+            // Do something with the object that was hit by the raycast.
+        }
     }
 
 }

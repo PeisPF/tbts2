@@ -14,6 +14,10 @@ public class MapManager : MonoBehaviour
         PrepareBFS();
     }
 
+    public override bool Equals(object other)
+    {
+        return base.Equals(other);
+    }
 
     void PrepareBFS()
     {
