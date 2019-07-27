@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
-    
 
-    public void Start()
+    public void InitializeMap()
     {
         GameObjectFactory gameObjectFactory = GameObject.FindObjectOfType<GameObjectFactory>();
         TileSet tileSet = new TileSet("TileSet", 9, 9, Vector3.zero, gameObjectFactory).Create();

@@ -16,7 +16,7 @@ public class PlayerScript : MonoBehaviour
         TileBFSScript tileBFSScript = FindActiveTile();
         if(tileBFSScript != null)
         {
-            tileBFSScript.gameObject.GetComponent<Renderer>().material.color = Color.red;  
+            tileBFSScript.HightlightTiles(movementPerTurn);
         }
         else
         {
@@ -39,15 +39,14 @@ public class PlayerScript : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.red, 60f, false);
         if (hit)
         {
-            Debug.Log("Hit: {0}", raycastHit.collider.gameObject);
             TileBFSScript tileBFSScript = raycastHit.collider.GetComponent<TileBFSScript>();
             return tileBFSScript;
+        }
+        else
+        {
+            Debug.Log(string.Format("The raycast from {0} to {1} didn't hit anything", ray.origin, ray.direction * maxDistance));
         }
         return null;
     }
 
-    void Update()
-    {
-        
-    }
 }

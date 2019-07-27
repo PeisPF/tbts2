@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         GameObjectFactory gameObjectFactory = NewGameObjectFactory();
-        NewMapManager();
+        NewMapManager().InitializeMap();
         this.currentPlayer = gameObjectFactory.Id("Player").Resource("Player/Player").Position(0, 1.05f, 0).Create();
         currentPlayer.GetComponent<PlayerScript>().HighlightTiles();
     }

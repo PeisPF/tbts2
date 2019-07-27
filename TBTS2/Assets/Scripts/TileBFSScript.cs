@@ -16,7 +16,7 @@ public class TileBFSScript : MonoBehaviour
         Vector3[] directions = new Vector3[] { Vector3.forward, Vector3.back, Vector3.left, Vector3.right };
         Vector3 origin = this.transform.position;
         int maxDistance = 1;
-        foreach( Vector3 direction in directions )
+        foreach (Vector3 direction in directions)
         {
             Ray ray = new Ray(origin, direction);
             RaycastHit raycastHit;
@@ -31,15 +31,69 @@ public class TileBFSScript : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void HighlightTiles(int remainingMovements)
     {
-        
+
+        BFSStatus bFSStatus = HighlightTiles(new BFSStatus(remainingMovements));
+        foreach(TileBFSScript visited in bFSStatus.GetVisited())
+        {
+            visited.GetComponent<Renderer>().material.color = Color.red;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private BFSStatus HighlightTiles(BFSStatus bFSStatus){
+        bFSStatus.Visit(this.gameObject);
+        if (bFSStatus.HasRemainingMovements())
+        {
+            bFSStatus.Moved();
+            foreach (TileBFSScript tileBFSScript in adjacency)
+            {
+                if (!bFSStatus.Contains(tileBFSScript))
+                {
+                    tileBFSScript.HighlightTiles(bFSStatus);
+                }
+            }
+        }
+        return bFSStatus;
+    }
+
+    class BFSStatus
+    {   
+        private List<TileBFSScript> visited;
+        private int remainingMovements;
+
+        public BFSStatus(int remainingMovements)
+        {
+            this.remainingMovements = remainingMovements;
+        }
+
+        public bool HasRemainingMovements()
+        {
+            return remainingMovements > 0;
+        }
+
+        public void Moved()
+        {
+            remainingMovements--;
+        }
+
+        public bool Contains(TileBFSScript gameObject)
+        {
+            return visited.Contains(gameObject);
+        }
+
+        public void Visit(TileBFSScript gameObject)
+        {
+            this.visited.Add(gameObject);
+        }
+
+        public List<TileBFSScript> GetVisited()
+        {
+            return visited;
+        }
+
+
     }
 }
+
+
