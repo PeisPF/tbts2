@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,26 +29,25 @@ public class TileBFSScript : MonoBehaviour
 
     public void HighlightTiles(int remainingMovements)
     {
-
-        BFSStatus bFSStatus = VisitAll(new BFSStatus(), remainingMovements);
-        foreach(TileBFSScript visited in bFSStatus.GetVisited())
-        {
-            visited.GetComponent<Renderer>().material.color = Color.red;
-        }
+        Action<TileBFSScript> highlight = delegate (TileBFSScript tileBFSScript)
+                                            {
+                                                tileBFSScript.GetComponent<Renderer>().material.color = Color.red;
+                                            };
+        VisitAll(new BFSStatus(), remainingMovements, highlight);
     }
 
-    private BFSStatus VisitAll(BFSStatus bFSStatus, int distance)
+    private BFSStatus VisitAll(BFSStatus bFSStatus, int distance, Action<TileBFSScript> action)
     {
         if (distance>0)
         {
-            bFSStatus.Visit(this);
+            bFSStatus.Visit(this, action);
             distance--;
             foreach (TileBFSScript neighbour in this.neighbours)
             {
                 bool alreadyVisited = bFSStatus.Contains(neighbour);
                 if (!alreadyVisited)
                 {
-                    neighbour.VisitAll(bFSStatus, distance);
+                    neighbour.VisitAll(bFSStatus, distance, action);
                 }
             }
         }
@@ -58,14 +58,16 @@ public class TileBFSScript : MonoBehaviour
     {   
         private List<TileBFSScript> visited = new List<TileBFSScript>();
 
-        public bool Contains(TileBFSScript gameObject)
+        public bool Contains(TileBFSScript tileBFSScript)
         {
-            return visited.Contains(gameObject);
+            return visited.Contains(tileBFSScript);
         }
 
-        public void Visit(TileBFSScript gameObject)
+        public void Visit(TileBFSScript tileBFSScript, Action<TileBFSScript> action)
         {
-            this.visited.Add(gameObject);
+            this.visited.Add(tileBFSScript);
+            action(tileBFSScript);
+
         }
 
         public List<TileBFSScript> GetVisited()
