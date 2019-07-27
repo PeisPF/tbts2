@@ -6,6 +6,69 @@ using UnityEngine;
 public class TileBFSScript : MonoBehaviour
 {
     public List<TileBFSScript> neighbours = new List<TileBFSScript>();
+    private Color defaultColor;
+
+    public bool reachable;
+    public bool selected;
+    public bool isPath;
+    public TileBFSScript predecessor;
+
+    private void Start()
+    {
+        this.defaultColor = this.GetComponent<Renderer>().material.color;
+    }
+
+    public void Selected()
+    {
+        this.selected = true;
+        if(reachable)
+        {
+            //TODO to-review
+            TileBFSScript currentPredecessor = this.predecessor;
+            while (currentPredecessor != null)
+            {
+                currentPredecessor.isPath = true;
+                currentPredecessor = currentPredecessor.predecessor;
+            }
+        }
+    }
+
+    public void Deselected()
+    {
+        this.selected = false;
+        if (reachable)
+        {
+            //TODO to-review
+            TileBFSScript currentPredecessor = this.predecessor;
+            while (currentPredecessor != null)
+            {
+                currentPredecessor.isPath = false;
+                currentPredecessor = currentPredecessor.predecessor;
+            }
+        }
+
+    }
+
+    private void Update()
+    {
+        if ((selected && reachable) || isPath)
+        {
+            this.GetComponent<Renderer>().material.color = Color.yellow;
+        }
+        else if (selected && !reachable)
+        {
+            this.GetComponent<Renderer>().material.color = Color.black;
+        }
+        else if (reachable)
+        {
+            this.GetComponent<Renderer>().material.color = Color.red;
+        }
+        else
+        {
+            this.GetComponent<Renderer>().material.color = defaultColor;
+        }
+
+    }
 
     public void CalculateNeighbours()
     {
@@ -31,7 +94,8 @@ public class TileBFSScript : MonoBehaviour
     {
         Action<TileBFSScript> highlight = delegate (TileBFSScript tileBFSScript)
                                             {
-                                                tileBFSScript.GetComponent<Renderer>().material.color = Color.red;
+                                                //TODO to-review
+                                                tileBFSScript.reachable = true;
                                             };
         VisitAll(new BFSStatus(), null, remainingMovements, highlight);
 
@@ -86,6 +150,8 @@ public class TileBFSScript : MonoBehaviour
         {
             BFSNode bFSNode = new BFSNode(tileBFSScript, predecessor);
             this.visited.Add(bFSNode);
+            //TODO to-review
+            tileBFSScript.predecessor = predecessor;
             action(tileBFSScript);
 
         }

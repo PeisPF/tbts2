@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     private GameObject currentPlayer;
+    private TileBFSScript currentSelection;
 
     void Start()
     {
@@ -32,13 +33,23 @@ public class GameController : MonoBehaviour
     void Update()
     {
         RaycastHit hit;
-        Ray ray = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out hit))
         {
             Transform objectHit = hit.transform;
+            TileBFSScript tileBFSScript = objectHit.GetComponent<TileBFSScript>();
+            if (tileBFSScript != null)
+            {
+                if(currentSelection!=null && currentSelection!=tileBFSScript)
+                {
+                    currentSelection.Deselected();
+                }
+                currentSelection = tileBFSScript;
+                tileBFSScript.Selected();
+            }
 
-            // Do something with the object that was hit by the raycast.
         }
     }
 
