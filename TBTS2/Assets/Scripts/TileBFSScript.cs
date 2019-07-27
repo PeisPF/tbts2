@@ -33,46 +33,72 @@ public class TileBFSScript : MonoBehaviour
                                             {
                                                 tileBFSScript.GetComponent<Renderer>().material.color = Color.red;
                                             };
-        VisitAll(new BFSStatus(), remainingMovements, highlight);
+        VisitAll(new BFSStatus(), null, remainingMovements, highlight);
+
     }
 
-    private BFSStatus VisitAll(BFSStatus bFSStatus, int distance, Action<TileBFSScript> action)
+    private BFSStatus VisitAll(BFSStatus bFSStatus, TileBFSScript predecessor, int distance, Action<TileBFSScript> action)
     {
         if (distance>0)
         {
-            bFSStatus.Visit(this, action);
+            bFSStatus.Visit(this, predecessor, action);
             distance--;
             foreach (TileBFSScript neighbour in this.neighbours)
             {
                 bool alreadyVisited = bFSStatus.Contains(neighbour);
                 if (!alreadyVisited)
                 {
-                    neighbour.VisitAll(bFSStatus, distance, action);
+                    neighbour.VisitAll(bFSStatus, this, distance, action);
                 }
             }
         }
         return bFSStatus;
     }
 
+    public class BFSNode
+    {
+        private TileBFSScript current;
+        private TileBFSScript predecessor;
+
+        public BFSNode(TileBFSScript current, TileBFSScript predecessor)
+        {
+            this.current = current;
+            this.predecessor = predecessor;
+        }
+
+        public TileBFSScript GetCurrent()
+        {
+            return this.current;
+        }
+
+    }
+
     class BFSStatus
     {   
-        private List<TileBFSScript> visited = new List<TileBFSScript>();
+        private List<BFSNode> visited = new List<BFSNode>();
 
         public bool Contains(TileBFSScript tileBFSScript)
         {
-            return visited.Contains(tileBFSScript);
+            return visited.Exists(bfsNode => bfsNode.GetCurrent()==tileBFSScript);
         }
 
-        public void Visit(TileBFSScript tileBFSScript, Action<TileBFSScript> action)
+        public void Visit(TileBFSScript tileBFSScript, TileBFSScript predecessor, Action<TileBFSScript> action)
         {
-            this.visited.Add(tileBFSScript);
+            BFSNode bFSNode = new BFSNode(tileBFSScript, predecessor);
+            this.visited.Add(bFSNode);
             action(tileBFSScript);
 
         }
 
         public List<TileBFSScript> GetVisited()
         {
-            return visited;
+
+            List<TileBFSScript> output = new List<TileBFSScript>();
+            foreach(BFSNode node in this.visited)
+            {
+                output.Add(node.GetCurrent());
+            }
+            return output;
         }
 
 
